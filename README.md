@@ -1,5 +1,31 @@
 # 38-SOPKATHON-iOS-iOS1
 
+<div align="center">
+
+## iOS Developer
+
+| **신서연** | **임성환** | **장지인** |
+| :---: | :---: | :---: |
+| | | |
+
+</div>
+
+<br>
+
+<div align="center">
+  
+## 기술 스택
+
+<img src="https://img.shields.io/badge/uikit-2396F3?style=for-the-badge&logo=uikit&logoColor=white"> <img src="https://img.shields.io/badge/snapkit-FFFC00?style=for-the-badge&logo=snapchat&logoColor=white"> <img src="https://img.shields.io/badge/Then-000000?style=for-the-badge&logo=swift&logoColor=white">
+
+<br>
+
+<img src="https://img.shields.io/badge/git-F05032?style=for-the-badge&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=for-the-badge&logo=github&logoColor=white"> <img src="https://img.shields.io/badge/notion-000000?style=for-the-badge&logo=notion&logoColor=white"> <img src="https://img.shields.io/badge/figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white">
+
+</div>
+
+<br>
+
 ## 코드 컨벤션
 
 > [StyleShare 의 Swift Style Guide](https://github.com/StyleShare/swift-style-guide) 를 기본으로 따라갑니다.
