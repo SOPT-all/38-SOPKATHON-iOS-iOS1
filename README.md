@@ -2,6 +2,12 @@
 
 ## 코드 컨벤션
 
+> [StyleShare 의 Swift Style Guide](https://github.com/StyleShare/swift-style-guide) 를 기본으로 따라갑니다.
+1. 성능 최적화와 위해 더 이상 상속되지 않을 class 에는 final 키워드를 붙입니다.
+2. 안전성을 위해 class 에서 사용되는 property는 모두 private로 선언합니다.
+3. 명시성을 위해 약어와 생략을 지양합니다. VC -> ViewController TVC -> TableViewCell
+4. 런타임 크래시를 방지하기 위해 강제 언래핑을 사용하지 않습니다.
+
 <br>
 
 ## 브랜치 전략
@@ -19,8 +25,6 @@
 | `rename` | 파일, 폴더명을 수정하거나 옮기는 작업 |
 | `docs` | README, .gitignore 등의 문서 작업 |
 | `refactor` | 코드 리팩토링 |
-
-<br>
 
 ### 깃 플로우
 
@@ -59,3 +63,5 @@
 <br>
 
 ## 시연영상 
+
+## 😴 솝커톤 비포앤애프터
