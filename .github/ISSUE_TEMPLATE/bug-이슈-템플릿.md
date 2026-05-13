@@ -2,7 +2,7 @@
 name: bug 이슈 템플릿
 about: 버그픽스 이슈 템플릿입니다!
 title: "[Fix] "
-labels: "\U0001F41B Fix"
+labels: "\U0001F41B Fix, \U0001F528 Refactor"
 assignees: ''
 
 ---
