@@ -38,6 +38,24 @@
 
 ## 폴더링
 
+```
+├── 📁 App
+│   ├── 📃 AppDelegate.swift
+│   └── 📃 SceneDelegate.swift
+├── 📁 Global
+│   ├── 📃 LaunchScreen.storyboard
+│   ├── 📁 Components
+│   ├── 📁 Extensions
+│   └── 📁 Resources
+│       ├── 📃 Assets.xcassets
+│       └── 📁 Fonts
+├── 📁 Features
+├── 📁 Network
+│   ├── 📁 Service
+│   └── 📁 DTO
+└── 📃 Info.plist
+```
+
 <br>
 
 ## 시연영상 
