@@ -300,7 +300,7 @@ private extension RemembranceViewController {
 
         commentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
         data.condolences.forEach {
-            commentStackView.addArrangedSubview(CommentCell(name: $0.nickname, message: $0.content, time: $0.createdAt))
+            commentStackView.addArrangedSubview(CommentCell(name: $0.nickname, message: $0.content, time: relativeTime(from: $0.createdAt)))
         }
     }
 
@@ -310,5 +310,18 @@ private extension RemembranceViewController {
         guard let date = formatter.date(from: dateString) else { return "D+0" }
         let days = Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0
         return "D+\(days)"
+    }
+
+    private func relativeTime(from dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        guard let date = formatter.date(from: dateString) else { return dateString }
+        let seconds = Int(Date().timeIntervalSince(date))
+        switch seconds {
+        case ..<60:     return "방금 전"
+        case ..<3600:   return "\(seconds / 60)분 전"
+        case ..<86400:  return "\(seconds / 3600)시간 전"
+        default:        return "\(seconds / 86400)일 전"
+        }
     }
 }
