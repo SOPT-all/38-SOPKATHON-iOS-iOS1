@@ -9,13 +9,14 @@ import UIKit
 import SnapKit
 
 final class SelectFriendsTestViewController: UIViewController {
-    
+
     // MARK: - UI Components
-    
+
     private let rootView = SelectFriendsView()
-    private let customTransitioningDelegate =
-    SelectFriendsTransitioningDelegate.shared
-    
+    private let customTransitioningDelegate = SelectFriendsTransitioningDelegate.shared
+    private let service = FriendService()
+    private var friends: [FriendDataDTO] = []
+
     init() {
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .custom
@@ -40,6 +41,7 @@ final class SelectFriendsTestViewController: UIViewController {
         
         setTableView()
         setAction()
+        fetchData()
     }
     
     // MARK: - Private Methods
@@ -81,7 +83,7 @@ final class SelectFriendsTestViewController: UIViewController {
 extension SelectFriendsTestViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 10
+        return friends.count
     }
     
     func tableView(
@@ -102,7 +104,8 @@ extension SelectFriendsTestViewController: UITableViewDataSource {
         }
         
         cell.selectionStyle = .none
-        
+        cell.configure(with: friends[indexPath.section])
+
         return cell
     }
     
@@ -125,6 +128,25 @@ extension SelectFriendsTestViewController: UITableViewDelegate {
         view.backgroundColor = .clear
         
         return view
+    }
+}
+
+// MARK: - Network
+
+private extension SelectFriendsTestViewController {
+
+    func fetchData() {
+        Task {
+            do {
+                let data = try await service.getFriends(userId: 1)
+                await MainActor.run {
+                    friends = data
+                    rootView.tableView.reloadData()
+                }
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
