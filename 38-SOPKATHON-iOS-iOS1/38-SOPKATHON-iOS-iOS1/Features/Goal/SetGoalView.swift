@@ -9,6 +9,9 @@ final class SetGoalView: UIView {
     private let titleView = UIView()
     let setGoalButton = ButtonComponents(type: .small, title: "관에 넣기")
     let closeButton = UIButton()
+
+    var goalTitle: String { nameTextField.text ?? "" }
+    var goalExpiredAt: String { dateTextField.text ?? "" }
     private let girigotitleLabel = UILabel()
     private let subtitleLabel = UILabel()
     private let nameLabel = UILabel()
@@ -107,13 +110,20 @@ final class SetGoalView: UIView {
         goalNameStackView.do {
             $0.axis = .horizontal
             $0.spacing = 16
-            $0.distribution = .fillEqually
+            $0.distribution = .fill
+            $0.alignment = .center
         }
 
         dateStackView.do {
             $0.axis = .horizontal
             $0.spacing = 16
-            $0.distribution = .fillEqually
+            $0.distribution = .fill
+            $0.alignment = .center
+        }
+
+        [nameLabel, dateLabel].forEach {
+            $0.setContentHuggingPriority(.required, for: .horizontal)
+            $0.setContentCompressionResistancePriority(.required, for: .horizontal)
         }
     }
 

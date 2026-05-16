@@ -50,7 +50,7 @@ final class HomeViewController: UIViewController {
     }
     
     private let bannerImageView = UIImageView().then {
-        $0.image = UIImage(named: "bannerImg")
+        $0.image = UIImage(resource: .bannerImg)
         $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
@@ -120,7 +120,7 @@ final class HomeViewController: UIViewController {
     @objc
     func plusButtonDidTap() {
 
-        let viewController = SetGoalViewController()
+        let viewController = SetGoalViewController(userId: 1)
 
         dimView.removeFromSuperview()
         dimView.alpha = 1

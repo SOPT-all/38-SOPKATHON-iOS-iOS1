@@ -13,10 +13,12 @@ final class SetGoalViewController: UIViewController {
     // MARK: - UI Components
     
     private let rootView = SetGoalView()
-    private let customTransitioningDelegate =
-    SetGoalTransitioningDelegate.shared
-    
-    init() {
+    private let customTransitioningDelegate = SetGoalTransitioningDelegate.shared
+    private let service = CreateGoalService()
+    private let userId: Int
+
+    init(userId: Int) {
+        self.userId = userId
         super.init(nibName: nil, bundle: nil)
         self.modalPresentationStyle = .custom
         self.transitioningDelegate = customTransitioningDelegate
@@ -63,7 +65,30 @@ final class SetGoalViewController: UIViewController {
     }
     @objc
     private func inviteButtonDidTap() {
-        NotificationCenter.default.post(name: .didDismissSelectFriends, object: nil)
-        dismiss(animated: true)
+        createGoal()
+    }
+}
+
+// MARK: - Network
+
+private extension SetGoalViewController {
+
+    func createGoal() {
+        let body = RequestCreateGoalDTO(
+            title: rootView.goalTitle,
+            expiredAt: rootView.goalExpiredAt
+        )
+
+        Task {
+            do {
+                let _ = try await service.createGoal(userId: userId, body: body)
+                await MainActor.run {
+                    NotificationCenter.default.post(name: .didDismissSelectFriends, object: nil)
+                    dismiss(animated: true)
+                }
+            } catch {
+                print("[SetGoalViewController] 목표 생성 실패:", error)
+            }
+        }
     }
 }
