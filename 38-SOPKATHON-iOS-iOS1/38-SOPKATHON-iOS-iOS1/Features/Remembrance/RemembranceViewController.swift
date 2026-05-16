@@ -51,7 +51,7 @@ final class RemembranceViewController: UIViewController {
         setStyle()
         setUI()
         setLayout()
-//        fetchData()
+        fetchData()
     }
 
     private func setStyle() {
@@ -259,22 +259,56 @@ final class RemembranceViewController: UIViewController {
 }
 
 // MARK: - Network
-//
-//private extension RemembranceViewController {
-//
-//    func fetchData() {
-//        Task {
-//            do {
-//                let data = try await service.getRemembranceData(userId: <#userId#>, goalId: <#goalId#>)
-//                bindData(data)
-//            } catch {
-//                print(error)
-//            }
-//        }
-//    }
-//
-//    @MainActor
-//    func bindData(_ data: RemembranceDataDto) {
-//        
-//    }
-//}
+
+private extension RemembranceViewController {
+
+    func fetchData() {
+        Task {
+            do {
+                let data = try await service.getRemembranceData(userId: 1, goalId: 1)
+                bindData(data)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    @MainActor
+    func bindData(_ data: RemembranceDataDto) {
+        nameLabel.attributedText = NSAttributedString(
+            string: "(故) \(data.title)",
+            attributes: UIFont.title_b_20.attributes(alignment: .center)
+        )
+
+        causeOfDeathLabel.attributedText = NSAttributedString(
+            string: data.description,
+            attributes: UIFont.body_m_14.attributes(alignment: .center)
+        )
+
+        userRow.updateValue(data.owner.nickname)
+        deathCauseRow.updateValue(data.description)
+        deathDateRow.updateValue(daysSince(data.createdAt))
+
+        let count = data.condolenceCount
+        let fullText = "조문 \(count)"
+        let attributedString = NSMutableAttributedString(string: fullText, attributes: UIFont.body_sb_16.attributes())
+        attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: fullText.count))
+        if let range = fullText.range(of: "\(count)") {
+            attributedString.addAttribute(.foregroundColor, value: UIColor.yellow ?? .gray, range: NSRange(range, in: fullText))
+        }
+        commentTitleLabel.attributedText = attributedString
+
+        commentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        data.condolences.forEach {
+            commentStackView.addArrangedSubview(CommentCell(name: $0.nickname, message: $0.content, time: $0.createdAt))
+        }
+    }
+
+    private func daysSince(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        guard let date = formatter.date(from: dateString) else { return "D+0" }
+        let days = Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0
+        return "D+\(days)"
+    }
+}
