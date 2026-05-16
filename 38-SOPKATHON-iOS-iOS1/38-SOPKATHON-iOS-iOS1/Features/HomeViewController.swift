@@ -33,15 +33,21 @@ final class HomeViewController: UIViewController {
     // MARK: - Dummy Data
 
     private let ongoingGoals: [(String, String, Int)] = [
-        ("profileImg", "민수", 10),
-        ("profileImg", "민수", 10),
-        ("profileImg", "민수", 10)
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10)
     ]
 
     private let endedGoals: [(String, String, Int)] = [
-        ("profileImg", "민수", 10),
-        ("profileImg", "민수", 10),
-        ("profileImg", "민수", 10)
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10)
+    ]
+    
+    private let completedGoals: [(String, String, Int)] = [
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10),
+        ("profileImg", "목표 이름", 10)
     ]
 
     // MARK: - UI
@@ -103,6 +109,8 @@ extension HomeViewController: UITableViewDataSource {
             return ongoingGoals.count
         case .ended:
             return endedGoals.count
+        case .completed:
+            return completedGoals.count
         }
     }
 
@@ -124,6 +132,8 @@ extension HomeViewController: UITableViewDataSource {
             data = ongoingGoals[indexPath.row]
         case .ended:
             data = endedGoals[indexPath.row]
+        case .completed:
+            data = completedGoals[indexPath.row]
         case .none:
             return UITableViewCell()
         }

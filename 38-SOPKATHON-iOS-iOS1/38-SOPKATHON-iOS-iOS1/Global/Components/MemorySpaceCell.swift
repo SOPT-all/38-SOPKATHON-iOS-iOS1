@@ -26,7 +26,7 @@ final class MemorySpaceCell: UITableViewCell {
     }
 
     private let nameLabel = UILabel().then {
-        $0.textColor = .white
+        $0.textColor = .black
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
     }
 
