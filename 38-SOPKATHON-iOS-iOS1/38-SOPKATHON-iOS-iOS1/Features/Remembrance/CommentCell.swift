@@ -10,16 +10,22 @@ import UIKit
 import SnapKit
 import Then
 
-final class CommentCell: UICollectionViewCell {
-    static let identifier: String = "CommentCell"
+final class CommentCell: UIView {
+    private var name = ""
+    private var message = ""
+    private var time = ""
     
     private let profileImageView = UIImageView()
     private let nameLabel = UILabel()
     private let commentLabel = UILabel()
     private let timeLabel = UILabel()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(name: String, message: String, time: String) {
+        super.init(frame: .zero)
+        
+        self.name = name
+        self.message = message
+        self.time = time
         
         setStyle()
         setUI()
@@ -34,19 +40,19 @@ final class CommentCell: UICollectionViewCell {
         profileImageView.do {
             $0.image = UIImage(resource: .profileImg)
             $0.clipsToBounds = true
-            $0.layer.cornerRadius = 100
+            $0.layer.cornerRadius = 24
         }
         
         nameLabel.do {
-            $0.attributedText = NSAttributedString(string: "이름", attributes: UIFont.body_sb_16.attributes)
+            $0.attributedText = NSAttributedString(string: self.name, attributes: UIFont.body_sb_16.attributes)
         }
         
         commentLabel.do {
-            $0.attributedText = NSAttributedString(string: "그렇게 될 줄 알았다 ㅋㅋ", attributes: UIFont.body_r_14.attributes)
+            $0.attributedText = NSAttributedString(string: self.message, attributes: UIFont.body_r_14.attributes)
         }
         
         timeLabel.do {
-            $0.attributedText = NSAttributedString(string: "10분 전", attributes: UIFont.body_r_14.attributes)
+            $0.attributedText = NSAttributedString(string: self.time, attributes: UIFont.body_r_14.attributes)
         }
     }
     
@@ -69,6 +75,7 @@ final class CommentCell: UICollectionViewCell {
         commentLabel.snp.makeConstraints {
             $0.leading.equalTo(nameLabel.snp.leading)
             $0.top.equalTo(nameLabel.snp.bottom)
+            $0.bottom.equalToSuperview().inset(16)
         }
         
         timeLabel.snp.makeConstraints {
