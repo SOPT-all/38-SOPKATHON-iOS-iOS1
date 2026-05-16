@@ -93,6 +93,14 @@
 
 <br>
 
+## 시연영상
+
+| 사용자(나)의 뷰 | 초대받은 친구의 뷰 |
+| :---: | :---: |
+| <img src="https://github.com/user-attachments/assets/39388d56-bcd1-45ba-90ba-2f8774c29f5e" width="250"> | <img src="https://github.com/user-attachments/assets/56a473af-0179-4736-85e4-9ec65d2ee3b8" width="250"> |
+| [영상 보기](https://youtube.com/shorts/TuZcmT9lxYQ?feature=share) | [영상 보기](https://youtube.com/shorts/psuGZjiL5Tc) |
+
+
 ## 😴 솝커톤 비포앤애프터
 
 | **Before** | **After** |
