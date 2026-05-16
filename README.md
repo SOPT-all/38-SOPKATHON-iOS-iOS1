@@ -1,7 +1,5 @@
 # 미루고
-> 서비스 이름 및 간단한 소개
-
-
+> 미루다 끝내 이루지 못한 목표를 장례식처럼 추모하는 서비스.
 
 <div align="center">
 
@@ -74,7 +72,7 @@
 ```
 ├── 📁 App
 │   ├── 📃 AppDelegate.swift
-│   └── 📃 SceneDelegate.swift<img width="1440" height="960" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/4e673118-3f37-49d7-849f-e2314cefee5b" />
+│   └── 📃 SceneDelegate.swift<img width="1440" height="960" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/4e673118-3f37-49d7-849f-e2314cefee5b" />
 
 ├── 📁 Global
 │   ├── 📃 LaunchScreen.storyboard
@@ -99,5 +97,4 @@
 | **Before** | **After** |
 | :---: | :---: |
 | <img width="360" height="240" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/57285cb4-7405-4bd1-b274-9f4d7bb1498d" /> | |
-
 
