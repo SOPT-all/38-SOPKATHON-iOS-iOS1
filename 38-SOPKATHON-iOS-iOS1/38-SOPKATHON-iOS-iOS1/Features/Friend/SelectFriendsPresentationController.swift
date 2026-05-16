@@ -12,6 +12,7 @@ final class SelectFriendsPresentationController: UIPresentationController {
     // MARK: - UI Components
     
     private let dimmedView = UIView()
+    private let dimView = DimView()
     
     // MARK: - Properties
     
@@ -32,27 +33,24 @@ final class SelectFriendsPresentationController: UIPresentationController {
     
     override func presentationTransitionWillBegin() {
         guard let containerView else { return }
-        
-        dimmedView.backgroundColor = .gray700?.withAlphaComponent(0.5)
+
+        dimmedView.backgroundColor = .clear
         dimmedView.frame = containerView.bounds
         dimmedView.alpha = 0
-        
-        containerView.addSubview(dimmedView)
-        
-        presentedViewController.transitionCoordinator?.animate {
-            _ in
-            
+
+        containerView.insertSubview(dimmedView, at: 0)
+
+        UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = 1
         }
     }
     
     override func dismissalTransitionWillBegin() {
-        presentedViewController.transitionCoordinator?.animate {
-            _ in
-            
+        UIView.animate(withDuration: 0.3) {
             self.dimmedView.alpha = 0
         } completion: { _ in
             self.dimmedView.removeFromSuperview()
+            self.dimView.removeFromSuperview()
         }
     }
 }
