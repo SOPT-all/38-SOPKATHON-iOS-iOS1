@@ -23,23 +23,24 @@ final class HomeViewController: UIViewController {
     }
 
     private struct Goal {
+        let goalId: Int
         let profileImageName: String
         let name: String
-        let dDay: Int
+        let dDay: String
     }
 
     private var ongoingGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(goalId: 1, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20"),
+        Goal(goalId: 2, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20")
     ]
 
     private var endedGoals: [Goal] = [
-        Goal(profileImageName: "profileImg1", name: "목표 이름", dDay: 20),
-        Goal(profileImageName: "profileImg2", name: "목표 이름", dDay: 20)
+        Goal(goalId: 3, profileImageName: "profileImg1", name: "목표 이름", dDay: "D-20"),
+        Goal(goalId: 4, profileImageName: "profileImg2", name: "목표 이름", dDay: "D-20")
     ]
 
     private var completedGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(goalId: 5, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20")
     ]
 
     private let topCardView = UIView().then {
@@ -98,6 +99,7 @@ final class HomeViewController: UIViewController {
         setLayout()
         setTableView()
         setButtonAction()
+        fetchHomeGoals()
     }
     
     func setButtonAction() {
@@ -376,34 +378,16 @@ private extension HomeViewController {
                 guard let self else { return }
 
                 switch result {
-                case .success(let response):
-                    self.ongoingGoals = response.activeGoals.map {
-                        Goal(
-                            goalId: $0.goalId,
-                            profileImageName: "profileImg",
-                            name: $0.title,
-                            dDay: $0.dDay
-                        )
+                case .success(let goals):
+                    self.ongoingGoals = goals.filter { $0.status == "IN_PROGRESS" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
                     }
-
-                    self.endedGoals = response.expiredGoals.map {
-                        Goal(
-                            goalId: $0.goalId,
-                            profileImageName: "profileImg",
-                            name: $0.title,
-                            dDay: $0.dDay
-                        )
+                    self.endedGoals = goals.filter { $0.status == "DEAD" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
                     }
-
-                    self.completedGoals = response.completedGoals.map {
-                        Goal(
-                            goalId: $0.goalId,
-                            profileImageName: "profileImg",
-                            name: $0.title,
-                            dDay: $0.dDay
-                        )
+                    self.completedGoals = goals.filter { $0.status == "COMPLETE" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
                     }
-
                     self.tableView.reloadData()
 
                 case .failure(let error):

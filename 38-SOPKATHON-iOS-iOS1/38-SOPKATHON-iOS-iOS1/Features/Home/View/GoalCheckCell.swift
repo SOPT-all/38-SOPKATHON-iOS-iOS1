@@ -84,12 +84,12 @@ final class GoalCheckCell: UITableViewCell {
 
     func configure(
         name: String,
-        dDay: Int,
+        dDay: String,
         checkStyle: CheckStyle,
         inviteHighlightedImageName: String
     ) {
         nameLabel.text = name
-        dDayLabel.text = "D-\(dDay)"
+        dDayLabel.text = dDay
 
         checkButton.setImage(
             UIImage(named: checkStyle.checkedImageName),
