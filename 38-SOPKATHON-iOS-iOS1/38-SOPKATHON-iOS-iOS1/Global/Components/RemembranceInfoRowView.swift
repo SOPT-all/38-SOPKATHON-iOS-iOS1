@@ -18,21 +18,23 @@ final class RemembranceInfoRowView: UIView {
         super.init(frame: .zero)
 
         titleLabel.do {
-            $0.attributedText = NSAttributedString(string: title, attributes: UIFont.caption_b_12.attributes())
-            $0.textColor = .black
+            $0.attributedText = NSAttributedString(string: title, attributes: UIFont.body_b_14.attributes())
+            $0.textColor = .white
         }
         valueLabel.do {
-            $0.attributedText = NSAttributedString(string: value, attributes: UIFont.caption_m_12.attributes())
-            $0.textColor = .black
+            $0.attributedText = NSAttributedString(string: value, attributes: UIFont.body_r_14.attributes())
+            $0.textColor = .white
         }
 
         addSubviews(titleLabel, valueLabel)
 
         titleLabel.snp.makeConstraints {
             $0.leading.centerY.equalToSuperview()
+            $0.width.equalTo(60)
         }
         valueLabel.snp.makeConstraints {
-            $0.leading.equalTo(titleLabel.snp.trailing).offset(8)
+            $0.leading.equalTo(titleLabel.snp.trailing).offset(12)
+            $0.trailing.equalToSuperview()
             $0.centerY.top.bottom.equalToSuperview()
         }
     }
