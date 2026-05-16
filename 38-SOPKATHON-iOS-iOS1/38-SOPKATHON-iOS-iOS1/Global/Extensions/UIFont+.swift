@@ -13,9 +13,14 @@ struct FontStyle {
     let letterSpacing: CGFloat
 
     var attributes: [NSAttributedString.Key: Any] {
+        attributes()
+    }
+
+    func attributes(alignment: NSTextAlignment = .natural) -> [NSAttributedString.Key: Any] {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.minimumLineHeight = lineHeight
         paragraphStyle.maximumLineHeight = lineHeight
+        paragraphStyle.alignment = alignment
         return [
             .font: font,
             .kern: letterSpacing,
