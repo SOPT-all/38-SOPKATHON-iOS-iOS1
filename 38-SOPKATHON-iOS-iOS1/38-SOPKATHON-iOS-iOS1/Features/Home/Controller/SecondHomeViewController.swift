@@ -17,24 +17,13 @@ final class SecondHomeViewController: UIViewController {
     private let dimView = DimView()
 
     private let containerView = UIView().then {
-        $0.backgroundColor = UIColor(
-            red: 48/255,
-            green: 48/255,
-            blue: 48/255,
-            alpha: 1
-        )
-
+        $0.backgroundColor = .gray700
         $0.layer.cornerRadius = 16
         $0.clipsToBounds = true
     }
 
     private let headerView = UIView().then {
-        $0.backgroundColor = UIColor(
-            red: 236/255,
-            green: 232/255,
-            blue: 97/255,
-            alpha: 1
-        )
+        $0.backgroundColor = .yellow
     }
 
     private let titleLabel = UILabel().then {
@@ -45,11 +34,7 @@ final class SecondHomeViewController: UIViewController {
     }
 
     private let closeButton = UIButton(type: .system).then {
-        $0.setImage(
-            UIImage(systemName: "xmark"),
-            for: .normal
-        )
-
+        $0.setImage(UIImage(systemName: "xmark"), for: .normal)
         $0.tintColor = .black
     }
 
@@ -68,18 +53,13 @@ final class SecondHomeViewController: UIViewController {
     private let infoStackView = UIStackView().then {
         $0.axis = .vertical
         $0.spacing = 16
+        $0.alignment = .leading
     }
 
     private let funeralButton = UIButton(type: .system).then {
         $0.setTitle("조문하기", for: .normal)
-
         $0.setTitleColor(.black, for: .normal)
-
-        $0.titleLabel?.font = .systemFont(
-            ofSize: 16,
-            weight: .semibold
-        )
-
+        $0.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 12
     }
@@ -109,7 +89,6 @@ private extension SecondHomeViewController {
         view.addSubview(containerView)
 
         containerView.addSubview(headerView)
-
         headerView.addSubview(titleLabel)
         headerView.addSubview(closeButton)
 
@@ -141,7 +120,6 @@ private extension SecondHomeViewController {
     }
 
     func setLayout() {
-
         dimView.snp.makeConstraints {
             $0.edges.equalToSuperview()
         }
@@ -192,7 +170,6 @@ private extension SecondHomeViewController {
     }
 
     func setAction() {
-
         closeButton.addTarget(
             self,
             action: #selector(closeButtonDidTap),
@@ -201,7 +178,7 @@ private extension SecondHomeViewController {
 
         funeralButton.addTarget(
             self,
-            action: #selector(closeButtonDidTap),
+            action: #selector(funeralButtonDidTap),
             for: .touchUpInside
         )
     }
@@ -210,25 +187,18 @@ private extension SecondHomeViewController {
         title: String,
         value: String
     ) -> UIView {
-
         let containerView = UIView()
 
         let titleLabel = UILabel().then {
             $0.text = title
             $0.textColor = .white
-            $0.font = .systemFont(
-                ofSize: 16,
-                weight: .bold
-            )
+            $0.font = .systemFont(ofSize: 16, weight: .bold)
         }
 
         let valueLabel = UILabel().then {
             $0.text = value
             $0.textColor = .white
-            $0.font = .systemFont(
-                ofSize: 16,
-                weight: .medium
-            )
+            $0.font = .systemFont(ofSize: 16, weight: .medium)
         }
 
         containerView.addSubview(titleLabel)
@@ -249,6 +219,11 @@ private extension SecondHomeViewController {
 
     @objc
     func closeButtonDidTap() {
+        dismiss(animated: true)
+    }
+
+    @objc
+    func funeralButtonDidTap() {
         dismiss(animated: true)
     }
 }
