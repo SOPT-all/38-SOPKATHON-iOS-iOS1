@@ -11,7 +11,7 @@ struct ResponseFriendDTO: Decodable {
     let status: Int
     let code: String
     let message: String
-    let data: FriendDataDTO
+    let data: [FriendDataDTO]
 }
 
 struct FriendDataDTO: Decodable {

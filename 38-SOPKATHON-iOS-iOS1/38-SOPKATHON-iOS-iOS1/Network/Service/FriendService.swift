@@ -9,7 +9,7 @@ import Foundation
 
 final class FriendService {
 
-    func getFriendData(userId: Int) async throws -> FriendDataDTO {
+    func getFriends(userId: Int) async throws -> [FriendDataDTO] {
         guard let baseURL = Bundle.main.infoDictionary?["BASE_URL"] as? String else {
             throw NetworkError.urlError
         }
