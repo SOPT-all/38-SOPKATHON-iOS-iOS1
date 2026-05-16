@@ -183,7 +183,9 @@ extension HomeViewController: UITableViewDataSource {
                 inviteHighlightedImageName: "invite4"
             )
 
-            cell.checkButtonDidTap = nil
+            cell.checkButtonDidTap = { [weak self] in
+                self?.moveGoalToOngoing(at: indexPath.row)
+            }
 
             return cell
         }
@@ -287,11 +289,22 @@ private extension HomeViewController {
         )
     }
 
+    // MARK: 목표 -> 완료
     func moveGoalToCompleted(at index: Int) {
         guard ongoingGoals.indices.contains(index) else { return }
 
         let goal = ongoingGoals.remove(at: index)
         completedGoals.append(goal)
+
+        tableView.reloadData()
+    }
+    
+    // MARK: 완료 -> 목표
+    func moveGoalToOngoing(at index: Int) {
+        guard completedGoals.indices.contains(index) else { return }
+
+        let goal = completedGoals.remove(at: index)
+        ongoingGoals.append(goal)
 
         tableView.reloadData()
     }
