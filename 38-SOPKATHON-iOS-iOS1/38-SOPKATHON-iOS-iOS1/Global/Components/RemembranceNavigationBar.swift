@@ -13,6 +13,7 @@ import Then
 final class RemembranceNavigationBar: UIView {
 
     let backButton = UIButton()
+    private let titleLabel = UILabel()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,17 +34,27 @@ final class RemembranceNavigationBar: UIView {
         backButton.do {
             $0.setImage(UIImage(resource: .icBack), for: .normal)
         }
+
+        titleLabel.do {
+            $0.attributedText = NSAttributedString(string: "미룸 장례식", attributes: UIFont.title_b_18.attributes(alignment: .center))
+            $0.textColor = .gray600
+        }
     }
 
     private func setUI() {
-        addSubview(backButton)
+        addSubviews(backButton, titleLabel)
     }
 
     private func setLayout() {
         backButton.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
-            $0.bottom.equalToSuperview().inset(10)
             $0.size.equalTo(24)
+            $0.bottom.equalToSuperview().inset(10)
+        }
+
+        titleLabel.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(10)
         }
     }
 
