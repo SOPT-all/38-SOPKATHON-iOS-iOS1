@@ -170,6 +170,7 @@ private extension SecondHomeViewController {
     }
 
     func setAction() {
+
         closeButton.addTarget(
             self,
             action: #selector(closeButtonDidTap),
@@ -182,7 +183,6 @@ private extension SecondHomeViewController {
             for: .touchUpInside
         )
     }
-
     func makeInfoView(
         title: String,
         value: String
@@ -224,6 +224,17 @@ private extension SecondHomeViewController {
 
     @objc
     func funeralButtonDidTap() {
-        dismiss(animated: true)
+
+        let viewController = RemembranceViewController()
+
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first {
+
+            window.rootViewController = UINavigationController(
+                rootViewController: viewController
+            )
+
+            window.makeKeyAndVisible()
+        }
     }
 }
