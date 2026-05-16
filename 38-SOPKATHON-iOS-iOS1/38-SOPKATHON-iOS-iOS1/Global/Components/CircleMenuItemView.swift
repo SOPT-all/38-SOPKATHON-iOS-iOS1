@@ -38,7 +38,7 @@ final class CircleMenuItemView: UIView {
         titleLabel.do {
             $0.numberOfLines = 2
             $0.textAlignment = .center
-            $0.textColor = .black
+            $0.textColor = .white
             $0.attributedText = NSAttributedString(string: self.title, attributes: UIFont.caption_m_12.attributes(alignment: .center))
         }
     }
