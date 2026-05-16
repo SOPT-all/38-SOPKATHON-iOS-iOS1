@@ -34,8 +34,8 @@ final class HomeViewController: UIViewController {
     ]
 
     private var endedGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(profileImageName: "profileImg2", name: "목표 이름", dDay: 20),
+        Goal(profileImageName: "profileImg1", name: "목표 이름", dDay: 20)
     ]
 
     private var completedGoals: [Goal] = [
