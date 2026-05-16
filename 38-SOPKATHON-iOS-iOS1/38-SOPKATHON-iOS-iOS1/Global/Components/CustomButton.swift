@@ -69,9 +69,9 @@ final class ButtonComponents: UIButton {
         
         switch custombuttonType {
         case .small:
-            backgroundColor = .gray100
+            backgroundColor = .white
             titleLabel?.font = UIFont.body_r_14.font
-            setTitleColor(.blue, for: .normal)
+            setTitleColor(.black, for: .normal)
             
         case .medium:
             layer.borderWidth = 1

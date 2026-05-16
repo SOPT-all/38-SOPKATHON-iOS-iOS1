@@ -1,5 +1,5 @@
 //
-//  SelectFriendsView.swift
+//  SelectFriendsViewCell.swift
 //  38-SOPKATHON-iOS-iOS1
 //
 //  Created by 장지인 on 5/17/26.
@@ -10,8 +10,8 @@ import UIKit
 import Then
 import SnapKit
 
-final class SelectFriendsView: UITableViewCell {
-    static let identifier = "SelectFriendsView"
+final class SelectFriendsViewCell: UITableViewCell {
+    static let identifier = "SelectFriendsViewCell"
     
     private let profileImageView = UIImageView()
     private let nameLabel = UILabel()
@@ -30,6 +30,7 @@ final class SelectFriendsView: UITableViewCell {
     }
     
     private func setStyle() {
+        backgroundColor = UIColor.gray700
         profileImageView.do {
             $0.image = UIImage(resource: .profileImg)
             $0.clipsToBounds = true
@@ -37,7 +38,8 @@ final class SelectFriendsView: UITableViewCell {
         }
         
         nameLabel.do {
-            $0.attributedText = NSAttributedString(string: "이름", attributes: UIFont.body_sb_16.attributes)
+            $0.attributedText = NSAttributedString(string: "민수", attributes: UIFont.body_sb_16.attributes)
+            $0.textColor = .white
         }
         
         checkImage.do {
