@@ -138,7 +138,7 @@ extension HomeViewController: UITableViewDataSource {
             cell.configure(
                 name: goal.name,
                 dDay: goal.dDay,
-                checkStyle: .blue,
+                checkStyle: .yellowNo,
                 inviteHighlightedImageName: "invite3"
             )
 
@@ -179,7 +179,7 @@ extension HomeViewController: UITableViewDataSource {
             cell.configure(
                 name: goal.name,
                 dDay: goal.dDay,
-                checkStyle: .green,
+                checkStyle: .yellowYes,
                 inviteHighlightedImageName: "invite4"
             )
 

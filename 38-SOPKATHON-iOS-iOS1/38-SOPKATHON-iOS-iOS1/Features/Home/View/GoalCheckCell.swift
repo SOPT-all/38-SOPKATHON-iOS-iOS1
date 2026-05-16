@@ -15,15 +15,15 @@ final class GoalCheckCell: UITableViewCell {
     static let identifier = "GoalCheckCell"
 
     enum CheckStyle {
-        case blue
-        case green
+        case yellowNo
+        case yellowYes
 
         var checkedImageName: String {
             switch self {
-            case .blue:
-                return "blueCheckYes"
-            case .green:
-                return "greenCheckYes"
+            case .yellowNo:
+                return "yellowCheckNo"
+            case .yellowYes:
+                return "yellowCheckYes"
             }
         }
     }
