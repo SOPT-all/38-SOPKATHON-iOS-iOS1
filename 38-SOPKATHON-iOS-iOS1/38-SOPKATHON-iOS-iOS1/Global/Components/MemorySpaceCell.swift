@@ -46,7 +46,7 @@ final class MemorySpaceCell: UITableViewCell {
 
     private let inviteButton = UIButton(type: .custom).then {
         $0.setImage(UIImage(named: "invite2"), for: .normal)
-        $0.setImage(UIImage(named: "invite5"), for: .highlighted)
+        $0.setImage(UIImage(named: "invite0"), for: .highlighted)
         $0.adjustsImageWhenHighlighted = false
     }
 

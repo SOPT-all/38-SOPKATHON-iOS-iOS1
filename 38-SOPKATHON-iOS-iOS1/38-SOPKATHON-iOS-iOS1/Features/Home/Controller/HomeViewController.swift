@@ -139,7 +139,7 @@ extension HomeViewController: UITableViewDataSource {
                 name: goal.name,
                 dDay: goal.dDay,
                 checkStyle: .yellowNo,
-                inviteHighlightedImageName: "invite3"
+                inviteHighlightedImageName: "invite0"
             )
 
             cell.checkButtonDidTap = { [weak self] in
@@ -180,7 +180,7 @@ extension HomeViewController: UITableViewDataSource {
                 name: goal.name,
                 dDay: goal.dDay,
                 checkStyle: .yellowYes,
-                inviteHighlightedImageName: "invite4"
+                inviteHighlightedImageName: "invite0"
             )
 
             cell.checkButtonDidTap = { [weak self] in
