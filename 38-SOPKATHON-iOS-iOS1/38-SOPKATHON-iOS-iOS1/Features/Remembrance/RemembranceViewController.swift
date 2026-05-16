@@ -30,6 +30,9 @@ final class RemembranceViewController: UIViewController {
     // MARK: - Menu
     private let menuStackView = UIStackView()
 
+    // MARK: - Navigation
+    private let navigationBar = RemembranceNavigationBar()
+
     // MARK: - Comment
     private let commentTitleLabel = UILabel()
     private let commentStackView = UIStackView()
@@ -91,7 +94,7 @@ final class RemembranceViewController: UIViewController {
     }
 
     private func setUI() {
-        view.addSubviews(scrollView, commentInputView)
+        view.addSubviews(navigationBar, scrollView, commentInputView)
         scrollView.addSubview(contentView)
 
         contentView.addSubviews(cardView, menuStackView, commentTitleLabel, commentStackView)
@@ -112,12 +115,18 @@ final class RemembranceViewController: UIViewController {
     }
 
     private func setLayout() {
+        navigationBar.snp.makeConstraints {
+            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.height.equalTo(44)
+        }
+
         commentInputView.snp.makeConstraints {
             $0.leading.trailing.bottom.equalToSuperview()
         }
 
         scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(commentInputView.snp.top)
         }
 
