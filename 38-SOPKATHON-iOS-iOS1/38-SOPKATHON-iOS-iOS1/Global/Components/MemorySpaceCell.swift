@@ -84,7 +84,7 @@ final class MemorySpaceCell: UITableViewCell {
     ) {
         profileImageView.image = UIImage(named: profileImageName)
         nameLabel.text = name
-        goalLabel.text = "목표 • \(goalCount)명"
+        goalLabel.text = "D-Day • \(goalCount)명"
     }
 }
 
