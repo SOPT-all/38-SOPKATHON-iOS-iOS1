@@ -1,18 +1,9 @@
-//
-//  HomeViewController.swift
-//  38-SOPKATHON-iOS-iOS1
-//
-//  Created by 신서연 on 5/17/26.
-//
-
 import UIKit
 
 import SnapKit
 import Then
 
 final class HomeViewController: UIViewController {
-
-    // MARK: - Section
 
     private enum Section: Int, CaseIterable {
         case ongoing
@@ -30,55 +21,66 @@ final class HomeViewController: UIViewController {
             }
         }
     }
-    // MARK: - Dummy Data
 
-    private let ongoingGoals: [(String, String, Int)] = [
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10)
+    private struct Goal {
+        let profileImageName: String
+        let name: String
+        let dDay: Int
+    }
+
+    private var ongoingGoals: [Goal] = [
+        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
+        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
     ]
 
-    private let endedGoals: [(String, String, Int)] = [
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10)
-    ]
-    
-    private let completedGoals: [(String, String, Int)] = [
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10),
-        ("profileImg", "목표 이름", 10)
+    private var endedGoals: [Goal] = [
+        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
+        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
     ]
 
-    // MARK: - UI
+    private var completedGoals: [Goal] = [
+        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+    ]
+
+    private let topCardView = UIView().then {
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+    }
 
     private let titleLabel = UILabel().then {
-        $0.text = "목표 설정"
+        $0.text = "목표 이루고"
         $0.textColor = .black
-        $0.font = .systemFont(ofSize: 24, weight: .bold)
+        $0.font = .systemFont(ofSize: 21, weight: .bold)
     }
 
     private let subTitleLabel = UILabel().then {
-        $0.text = "미루다 세상을 떠난 일들"
+        $0.text = "이루고 싶은 목표를 설정해보세요!"
         $0.textColor = .gray
         $0.font = .systemFont(ofSize: 13, weight: .medium)
+    }
+
+    private let textStackView = UIStackView().then {
+        $0.axis = .vertical
+        $0.spacing = 6
+        $0.alignment = .leading
     }
 
     private let plusButton = UIButton(type: .system).then {
         $0.setImage(UIImage(systemName: "plus"), for: .normal)
         $0.tintColor = .darkGray
-        $0.backgroundColor = .systemGray5
-        $0.layer.cornerRadius = 22
+        $0.backgroundColor = .white
+        $0.layer.cornerRadius = 23
+        $0.clipsToBounds = true
     }
 
     private let tableView = UITableView(frame: .zero, style: .plain).then {
-        $0.backgroundColor = .white
+        $0.backgroundColor = .clear
         $0.separatorStyle = .none
         $0.showsVerticalScrollIndicator = false
-        $0.rowHeight = 80
+        $0.rowHeight = 78
+        $0.sectionHeaderTopPadding = 0
     }
-
-    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,7 +97,7 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
+        Section.allCases.count
     }
 
     func tableView(
@@ -118,33 +120,73 @@ extension HomeViewController: UITableViewDataSource {
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
     ) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MemorySpaceCell.identifier,
-            for: indexPath
-        ) as? MemorySpaceCell else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return UITableViewCell()
         }
 
-        let data: (String, String, Int)
-
-        switch Section(rawValue: indexPath.section) {
+        switch section {
         case .ongoing:
-            data = ongoingGoals[indexPath.row]
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: GoalCheckCell.identifier,
+                for: indexPath
+            ) as? GoalCheckCell else {
+                return UITableViewCell()
+            }
+
+            let goal = ongoingGoals[indexPath.row]
+
+            cell.configure(
+                name: goal.name,
+                dDay: goal.dDay,
+                checkStyle: .blue,
+                inviteHighlightedImageName: "invite3"
+            )
+
+            cell.checkButtonDidTap = { [weak self] in
+                self?.moveGoalToCompleted(at: indexPath.row)
+            }
+
+            return cell
+
         case .ended:
-            data = endedGoals[indexPath.row]
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: MemorySpaceCell.identifier,
+                for: indexPath
+            ) as? MemorySpaceCell else {
+                return UITableViewCell()
+            }
+
+            let goal = endedGoals[indexPath.row]
+
+            cell.configure(
+                profileImageName: goal.profileImageName,
+                name: goal.name,
+                dDay: goal.dDay
+            )
+
+            return cell
+
         case .completed:
-            data = completedGoals[indexPath.row]
-        case .none:
-            return UITableViewCell()
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: GoalCheckCell.identifier,
+                for: indexPath
+            ) as? GoalCheckCell else {
+                return UITableViewCell()
+            }
+
+            let goal = completedGoals[indexPath.row]
+
+            cell.configure(
+                name: goal.name,
+                dDay: goal.dDay,
+                checkStyle: .green,
+                inviteHighlightedImageName: "invite4"
+            )
+
+            cell.checkButtonDidTap = nil
+
+            return cell
         }
-
-        cell.configure(
-            profileImageName: data.0,
-            name: data.1,
-            goalCount: data.2
-        )
-
-        return cell
     }
 }
 
@@ -156,7 +198,7 @@ extension HomeViewController: UITableViewDelegate {
         _ tableView: UITableView,
         heightForHeaderInSection section: Int
     ) -> CGFloat {
-        return section == 0 ? 56 : 72
+        section == 0 ? 52 : 70
     }
 
     func tableView(
@@ -166,19 +208,19 @@ extension HomeViewController: UITableViewDelegate {
         guard let section = Section(rawValue: section) else { return nil }
 
         let headerView = UIView()
-        headerView.backgroundColor = .white
+        headerView.backgroundColor = .clear
 
         let titleLabel = UILabel().then {
             $0.text = section.title
-            $0.textColor = .black
-            $0.font = .systemFont(ofSize: 16, weight: .bold)
+            $0.textColor = .white
+            $0.font = .systemFont(ofSize: 15, weight: .bold)
         }
 
         headerView.addSubview(titleLabel)
 
         titleLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(10)
         }
 
         return headerView
@@ -190,35 +232,41 @@ extension HomeViewController: UITableViewDelegate {
 private extension HomeViewController {
 
     func setStyle() {
-        view.backgroundColor = .white
+        view.backgroundColor = .gray900
     }
 
     func setUI() {
-        view.addSubview(titleLabel)
-        view.addSubview(subTitleLabel)
-        view.addSubview(plusButton)
+        view.addSubview(topCardView)
         view.addSubview(tableView)
+
+        topCardView.addSubview(textStackView)
+        topCardView.addSubview(plusButton)
+
+        textStackView.addArrangedSubview(titleLabel)
+        textStackView.addArrangedSubview(subTitleLabel)
     }
 
     func setLayout() {
-        titleLabel.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(48)
-            $0.leading.equalToSuperview().offset(16)
+        topCardView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
+            $0.leading.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(160)
         }
 
-        subTitleLabel.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(6)
-            $0.leading.equalTo(titleLabel)
+        textStackView.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(16)
+            $0.bottom.equalToSuperview().inset(20)
+            $0.trailing.lessThanOrEqualTo(plusButton.snp.leading).offset(-20)
         }
 
         plusButton.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.size.equalTo(44)
+            $0.trailing.equalToSuperview().inset(18)
+            $0.centerY.equalTo(textStackView)
+            $0.size.equalTo(46)
         }
 
         tableView.snp.makeConstraints {
-            $0.top.equalTo(subTitleLabel.snp.bottom).offset(36)
+            $0.top.equalTo(topCardView.snp.bottom).offset(28)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview()
         }
@@ -229,8 +277,22 @@ private extension HomeViewController {
         tableView.delegate = self
 
         tableView.register(
+            GoalCheckCell.self,
+            forCellReuseIdentifier: GoalCheckCell.identifier
+        )
+
+        tableView.register(
             MemorySpaceCell.self,
             forCellReuseIdentifier: MemorySpaceCell.identifier
         )
+    }
+
+    func moveGoalToCompleted(at index: Int) {
+        guard ongoingGoals.indices.contains(index) else { return }
+
+        let goal = ongoingGoals.remove(at: index)
+        completedGoals.append(goal)
+
+        tableView.reloadData()
     }
 }
