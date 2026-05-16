@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "flower.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "profileImg.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

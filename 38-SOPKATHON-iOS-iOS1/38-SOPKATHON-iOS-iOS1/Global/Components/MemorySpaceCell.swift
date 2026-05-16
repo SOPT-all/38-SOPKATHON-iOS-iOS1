@@ -73,11 +73,11 @@ final class MemorySpaceCell: UITableViewCell {
     func configure(
         profileImageName: String,
         name: String,
-        dDay: Int
+        dDay: String
     ) {
         profileImageView.image = UIImage(named: profileImageName)
         nameLabel.text = name
-        dDayLabel.text = "D-\(dDay)"
+        dDayLabel.text = dDay
     }
 }
 

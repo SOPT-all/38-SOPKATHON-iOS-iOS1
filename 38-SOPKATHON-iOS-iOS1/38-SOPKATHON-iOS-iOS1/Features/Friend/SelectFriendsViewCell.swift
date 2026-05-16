@@ -29,6 +29,10 @@ final class SelectFriendsViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(with friend: FriendDataDTO) {
+        nameLabel.attributedText = NSAttributedString(string: friend.nickname, attributes: UIFont.body_sb_16.attributes)
+    }
+
     private func setStyle() {
         backgroundColor = UIColor.gray700
         profileImageView.do {

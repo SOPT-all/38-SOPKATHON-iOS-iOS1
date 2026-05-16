@@ -23,28 +23,35 @@ final class HomeViewController: UIViewController {
     }
 
     private struct Goal {
+        let goalId: Int
         let profileImageName: String
         let name: String
-        let dDay: Int
+        let dDay: String
     }
 
     private var ongoingGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(goalId: 1, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20"),
+        Goal(goalId: 2, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20")
     ]
 
     private var endedGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20),
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(goalId: 3, profileImageName: "profileImg1", name: "목표 이름", dDay: "D-20"),
+        Goal(goalId: 4, profileImageName: "profileImg2", name: "목표 이름", dDay: "D-20")
     ]
 
     private var completedGoals: [Goal] = [
-        Goal(profileImageName: "profileImg", name: "목표 이름", dDay: 20)
+        Goal(goalId: 5, profileImageName: "profileImg", name: "목표 이름", dDay: "D-20")
     ]
 
     private let topCardView = UIView().then {
         $0.backgroundColor = .white
         $0.layer.cornerRadius = 10
+        $0.clipsToBounds = true
+    }
+    
+    private let bannerImageView = UIImageView().then {
+        $0.image = UIImage(named: "bannerImg")
+        $0.contentMode = .scaleAspectFill
         $0.clipsToBounds = true
     }
 
@@ -92,6 +99,7 @@ final class HomeViewController: UIViewController {
         setLayout()
         setTableView()
         setButtonAction()
+        fetchHomeGoals()
     }
     
     func setButtonAction() {
@@ -294,6 +302,7 @@ private extension HomeViewController {
         view.addSubview(topCardView)
         view.addSubview(tableView)
 
+        topCardView.addSubview(bannerImageView)
         topCardView.addSubview(textStackView)
         topCardView.addSubview(plusButton)
 
@@ -306,6 +315,10 @@ private extension HomeViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(160)
+        }
+        
+        bannerImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
         textStackView.snp.makeConstraints {
@@ -360,6 +373,33 @@ private extension HomeViewController {
         ongoingGoals.append(goal)
 
         tableView.reloadData()
+    }
+    
+    func fetchHomeGoals() {
+        let userId = 1
+
+        HomeService.shared.fetchHomeGoals(userId: userId) { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self else { return }
+
+                switch result {
+                case .success(let goals):
+                    self.ongoingGoals = goals.filter { $0.status == "IN_PROGRESS" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
+                    }
+                    self.endedGoals = goals.filter { $0.status == "DEAD" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
+                    }
+                    self.completedGoals = goals.filter { $0.status == "COMPLETE" }.map {
+                        Goal(goalId: $0.goalId, profileImageName: "profileImg", name: $0.title, dDay: $0.dDay)
+                    }
+                    self.tableView.reloadData()
+
+                case .failure(let error):
+                    print("목표 조회 실패:", error)
+                }
+            }
+        }
     }
     
     private func presentSelectFriendsView() {
