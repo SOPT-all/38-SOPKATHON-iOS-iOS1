@@ -16,7 +16,7 @@ enum SetButtonType {
     var radius: CGFloat {
         switch self {
         case .small:
-            return 8
+            return 12
             
         case .medium:
             return 10
