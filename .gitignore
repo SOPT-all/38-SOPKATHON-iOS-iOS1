@@ -39,3 +39,4 @@ playground.xcworkspace
 
 # Environment (환경 변수 파일)
 .env
+Config.xcconfig

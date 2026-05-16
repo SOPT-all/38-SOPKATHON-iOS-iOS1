@@ -81,6 +81,8 @@ final class HomeViewController: UIViewController {
         $0.rowHeight = 78
         $0.sectionHeaderTopPadding = 0
     }
+    
+    private let dimView = DimView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,6 +91,52 @@ final class HomeViewController: UIViewController {
         setUI()
         setLayout()
         setTableView()
+        setButtonAction()
+    }
+    
+    func setButtonAction() {
+        plusButton.addTarget(
+            self,
+            action: #selector(plusButtonDidTap),
+            for: .touchUpInside
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(removeDim),
+            name: .didDismissSelectFriends,
+            object: nil
+        )
+    }
+
+    @objc
+    func plusButtonDidTap() {
+
+        let viewController = SelectFriendsTestViewController()
+
+        dimView.removeFromSuperview()
+        dimView.alpha = 1
+
+        dimView.frame = view.bounds
+        view.addSubview(dimView)
+
+        UIView.animate(withDuration: 0.3) {
+            self.dimView.alpha = 1
+        }
+
+        viewController.modalPresentationStyle = .custom
+        viewController.modalTransitionStyle = .crossDissolve
+
+        present(viewController, animated: true)
+    }
+    
+    @objc
+    private func removeDim() {
+        UIView.animate(withDuration: 0.3, animations: {
+            self.dimView.alpha = 0
+        }, completion: { _ in
+            self.dimView.removeFromSuperview()
+            self.dimView.alpha = 1
+        })
     }
 }
 
