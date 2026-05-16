@@ -26,7 +26,7 @@ final class MemorySpaceCell: UITableViewCell {
     }
 
     private let nameLabel = UILabel().then {
-        $0.textColor = .white
+        $0.textColor = .black
         $0.font = .systemFont(ofSize: 16, weight: .semibold)
     }
 
@@ -43,12 +43,11 @@ final class MemorySpaceCell: UITableViewCell {
     }
 
     private let enterButton = UIButton(type: .system).then {
-        $0.setTitle("입장", for: .normal)
+        $0.setTitle("초대", for: .normal)
         $0.setTitleColor(.white, for: .normal)
-        $0.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
-        $0.backgroundColor = .gray500
-        $0.layer.cornerRadius = 10
-        $0.layer.borderWidth = 1
+        $0.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
+        $0.backgroundColor = .systemGray5
+        $0.layer.cornerRadius = 6
         $0.clipsToBounds = true
     }
 
@@ -85,15 +84,15 @@ final class MemorySpaceCell: UITableViewCell {
     ) {
         profileImageView.image = UIImage(named: profileImageName)
         nameLabel.text = name
-        goalLabel.text = "목표 • \(goalCount)명"
+        goalLabel.text = "D-Day • \(goalCount)명"
     }
 }
 
 private extension MemorySpaceCell {
 
     func setStyle() {
-        backgroundColor = .black
-        contentView.backgroundColor = .black
+        backgroundColor = .white
+        contentView.backgroundColor = .white
         selectionStyle = .none
     }
 
@@ -122,8 +121,8 @@ private extension MemorySpaceCell {
         enterButton.snp.makeConstraints {
             $0.trailing.equalToSuperview()
             $0.centerY.equalToSuperview()
-            $0.width.equalTo(112)
-            $0.height.equalTo(72)
+            $0.width.equalTo(55)
+            $0.height.equalTo(35)
         }
     }
 }
