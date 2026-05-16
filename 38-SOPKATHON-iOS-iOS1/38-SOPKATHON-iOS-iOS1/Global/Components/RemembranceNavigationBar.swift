@@ -27,12 +27,11 @@ final class RemembranceNavigationBar: UIView {
 
     private func setStyle() {
         self.do {
-            $0.backgroundColor = UIColor(red: 103/255, green: 103/255, blue: 103/255, alpha: 1)
+            $0.backgroundColor = UIColor.yellow
         }
 
         backButton.do {
-            $0.setImage(UIImage(resource: .chevronLeft), for: .normal)
-            $0.tintColor = .white
+            $0.setImage(UIImage(resource: .icBack), for: .normal)
         }
     }
 
@@ -42,9 +41,10 @@ final class RemembranceNavigationBar: UIView {
 
     private func setLayout() {
         backButton.snp.makeConstraints {
-            $0.leading.equalToSuperview().inset(6)
-            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().inset(16)
+            $0.bottom.equalToSuperview().inset(10)
             $0.size.equalTo(24)
         }
     }
+
 }

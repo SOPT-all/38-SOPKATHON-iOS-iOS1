@@ -45,14 +45,17 @@ final class CommentCell: UIView {
         
         nameLabel.do {
             $0.attributedText = NSAttributedString(string: self.name, attributes: UIFont.body_sb_16.attributes)
+            $0.textColor = .white
         }
         
         commentLabel.do {
             $0.attributedText = NSAttributedString(string: self.message, attributes: UIFont.body_r_14.attributes)
+            $0.textColor = .gray500
         }
         
         timeLabel.do {
             $0.attributedText = NSAttributedString(string: self.time, attributes: UIFont.body_r_14.attributes)
+            $0.textColor = .gray300
         }
     }
     

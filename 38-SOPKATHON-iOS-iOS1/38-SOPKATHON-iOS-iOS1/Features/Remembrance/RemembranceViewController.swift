@@ -24,8 +24,11 @@ final class RemembranceViewController: UIViewController {
     private let causeOfDeathTitleLabel = UILabel()
     private let causeOfDeathLabel = UILabel()
     private let divider2 = UIView()
-    private let issueNumberRow = RemembranceInfoRowView(title: "발급 번호", value: "M-124214")
-    private let deathDateRow = RemembranceInfoRowView(title: "사망일", value: "2026.05.16")
+    private let userRow = RemembranceInfoRowView(title: "상주", value: "김솝트")
+    private let deathCauseRow = RemembranceInfoRowView(title: "사망 원인", value: "밥을 많이 먹어서")
+    private let deathDateRow = RemembranceInfoRowView(title: "사망 경과", value: "D+1")
+    private let infoStackView = UIStackView()
+    private let causeOfDeathStackView = UIStackView()
 
     // MARK: - Menu
     private let menuStackView = UIStackView()
@@ -40,7 +43,7 @@ final class RemembranceViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .gray900
         setStyle()
         setUI()
         setLayout()
@@ -48,44 +51,65 @@ final class RemembranceViewController: UIViewController {
 
     private func setStyle() {
         cardView.do {
-            $0.backgroundColor = UIColor(red: 217/255, green: 217/255, blue: 217/255, alpha: 1)
+            $0.backgroundColor = .gray700
             $0.layer.cornerRadius = 16
         }
 
         memorialImageView.do {
             $0.contentMode = .scaleAspectFit
-            $0.image = UIImage(resource: .remembrance)
+            $0.image = UIImage(resource: .artwork)
             $0.tintColor = .gray
         }
 
         nameLabel.do {
-            $0.attributedText = NSAttributedString(string: "(고) 다이어트", attributes: UIFont.title_b_20.attributes(alignment: .center))
-            $0.textColor = .black
+            $0.attributedText = NSAttributedString(string: "(故) 다이어트", attributes: UIFont.title_b_20.attributes(alignment: .center))
+            $0.textColor = .white
         }
 
-        divider1.do { $0.backgroundColor = UIColor(white: 0, alpha: 0.2) }
-        divider2.do { $0.backgroundColor = UIColor(white: 0, alpha: 0.2) }
+        divider1.do { $0.backgroundColor = UIColor.gray500 }
+        divider2.do { $0.backgroundColor = UIColor.gray500 }
 
         causeOfDeathTitleLabel.do {
-            $0.attributedText = NSAttributedString(string: "사망 원인", attributes: UIFont.body_b_14.attributes(alignment: .center))
-            $0.textColor = .black
+            $0.attributedText = NSAttributedString(string: "사망원인", attributes: UIFont.body_m_14.attributes(alignment: .center))
+            $0.textColor = .white
         }
 
         causeOfDeathLabel.do {
-            $0.attributedText = NSAttributedString(string: "너무 많이 먹어서", attributes: UIFont.body_r_14.attributes(alignment: .center))
-            $0.textColor = .black
+            $0.attributedText = NSAttributedString(string: "너무 많이 먹어서", attributes: UIFont.body_m_14.attributes(alignment: .center))
+            $0.textColor = .gray200
         }
 
-        menuStackView.do {
+        causeOfDeathStackView.do {
+            $0.axis = .vertical
+            $0.spacing = 4
+            $0.alignment = .center
+        }
+
+        infoStackView.do {
+            $0.axis = .vertical
+            $0.spacing = 8
+            $0.alignment = .leading
+            }
+
+            menuStackView.do {
             $0.axis = .horizontal
             $0.distribution = .fillEqually
             $0.alignment = .top
-        }
+            }
 
-        commentTitleLabel.do {
-            $0.attributedText = NSAttributedString(string: "조문 10", attributes: UIFont.body_sb_16.attributes())
-            $0.textColor = UIColor(red: 32/255, green: 32/255, blue: 34/255, alpha: 1)
-        }
+            commentTitleLabel.do {
+                let fullText = "조문 2"
+                let attributedString = NSMutableAttributedString(string: fullText, attributes: UIFont.body_sb_16.attributes())
+                attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: fullText.count))
+
+                if let range = fullText.range(of: "2") {
+                    let nsRange = NSRange(range, in: fullText)
+                    attributedString.addAttribute(.foregroundColor, value: UIColor.yellow ?? .gray, range: nsRange)
+                }
+
+                $0.attributedText = attributedString
+            }
+
 
         commentStackView.do {
             $0.axis = .vertical
@@ -99,7 +123,14 @@ final class RemembranceViewController: UIViewController {
 
         contentView.addSubviews(cardView, menuStackView, commentTitleLabel, commentStackView)
 
-        cardView.addSubviews(memorialImageView, nameLabel, divider1, causeOfDeathTitleLabel, causeOfDeathLabel, divider2, issueNumberRow, deathDateRow)
+        cardView.addSubviews(memorialImageView, nameLabel, divider1, causeOfDeathStackView, divider2, infoStackView)
+        [causeOfDeathTitleLabel, causeOfDeathLabel].forEach {
+            causeOfDeathStackView.addArrangedSubview($0)
+        }
+
+        [userRow, deathCauseRow, deathDateRow].forEach {
+            infoStackView.addArrangedSubview($0)
+        }
 
         ["부활", "고이 보내기", "유산 넘기기"].forEach {
             menuStackView.addArrangedSubview(CircleMenuItemView(title: $0))
@@ -116,8 +147,9 @@ final class RemembranceViewController: UIViewController {
 
     private func setLayout() {
         navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
-            $0.height.equalTo(44)
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44)
         }
 
         commentInputView.snp.makeConstraints {
@@ -136,60 +168,49 @@ final class RemembranceViewController: UIViewController {
         }
 
         cardView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(24)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(280)
-            $0.height.equalTo(360)
+            $0.top.equalToSuperview().inset(40)
+            $0.horizontalEdges.equalToSuperview().inset(16)
         }
 
         memorialImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().inset(18)
+            $0.top.equalToSuperview().inset(32)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(120)
-            $0.height.equalTo(142)
+            $0.size.equalTo(180)
         }
 
         nameLabel.snp.makeConstraints {
-            $0.top.equalTo(memorialImageView.snp.bottom).offset(8)
+            $0.top.equalTo(memorialImageView.snp.bottom).offset(16)
             $0.centerX.equalToSuperview()
         }
 
         divider1.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(16)
-            $0.leading.trailing.equalToSuperview().inset(18)
+            $0.top.equalTo(nameLabel.snp.bottom).offset(12)
+            $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(1)
         }
 
-        causeOfDeathTitleLabel.snp.makeConstraints {
+        causeOfDeathStackView.snp.makeConstraints {
             $0.top.equalTo(divider1.snp.bottom).offset(8)
             $0.centerX.equalToSuperview()
         }
 
-        causeOfDeathLabel.snp.makeConstraints {
-            $0.top.equalTo(causeOfDeathTitleLabel.snp.bottom).offset(2)
-            $0.centerX.equalToSuperview()
-        }
-
         divider2.snp.makeConstraints {
-            $0.top.equalTo(causeOfDeathLabel.snp.bottom).offset(8)
-            $0.leading.trailing.equalToSuperview().inset(18)
+            $0.top.equalTo(causeOfDeathStackView.snp.bottom).offset(8)
+            $0.leading.trailing.equalToSuperview().inset(24)
             $0.height.equalTo(1)
         }
 
-        issueNumberRow.snp.makeConstraints {
-            $0.top.equalTo(divider2.snp.bottom).offset(16)
-            $0.leading.equalToSuperview().inset(18)
-        }
-
-        deathDateRow.snp.makeConstraints {
-            $0.top.equalTo(issueNumberRow.snp.bottom).offset(12)
-            $0.leading.equalToSuperview().inset(18)
+        infoStackView.snp.makeConstraints {
+            $0.top.equalTo(divider2.snp.bottom).offset(28)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(32)
         }
 
         menuStackView.snp.makeConstraints {
             $0.top.equalTo(cardView.snp.bottom).offset(40)
-            $0.leading.trailing.equalToSuperview().inset(60)
+            $0.leading.trailing.equalToSuperview().inset(48)
         }
+
 
         commentTitleLabel.snp.makeConstraints {
             $0.top.equalTo(menuStackView.snp.bottom).offset(40)
