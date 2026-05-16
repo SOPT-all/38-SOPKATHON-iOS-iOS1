@@ -1,5 +1,7 @@
 # 미루고
 > 미루다 끝내 이루지 못한 목표를 장례식처럼 추모하는 서비스.
+> 
+> 사용자가 오래 미뤄온 목표를 유머러스한 장례식 경험으로 마주하게 하여, 죄책감을 혼자 끌어안는 대신 정리하거나 다시 시작할 수 있도록 돕는다.
 
 <div align="center">
 
@@ -8,6 +10,7 @@
 | **신서연** | **임성환** | **장지인** |
 | :---: | :---: | :---: |
 | `HomeView` | `RemembranceView` | `FriendModalView` |
+| <img width="250" height="250" alt="200740286" src="https://github.com/user-attachments/assets/362600fd-0ead-49ba-baf5-daa1c293ff63" /> | <img width="250" height="250" alt="84004766" src="https://github.com/user-attachments/assets/f59bceae-47b1-4385-ab0b-d2dbbf93cca7" /> | <img width="250" height="250" alt="88064782" src="https://github.com/user-attachments/assets/ccda9a3e-264c-4689-bb09-9ce2664bd865" /> |
 
 </div>
 
@@ -90,11 +93,9 @@
 
 <br>
 
-## 시연영상 
-
 ## 😴 솝커톤 비포앤애프터
 
 | **Before** | **After** |
 | :---: | :---: |
-| <img width="360" height="240" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/57285cb4-7405-4bd1-b274-9f4d7bb1498d" /> | |
+| <img width="360" height="240" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/57285cb4-7405-4bd1-b274-9f4d7bb1498d" /> |<img width="360" height="240" alt="사진 2026  5  17  07 45" src="https://github.com/user-attachments/assets/9da278b1-2302-4601-b2fb-f47a72aeb10b" /> |
 
