@@ -18,6 +18,8 @@ final class RemembranceViewController: UIViewController {
 
     // MARK: - Card
     private let cardView = UIView()
+    private let leftCornerBand = UIView()
+    private let rightCornerBand = UIView()
     private let memorialImageView = UIImageView()
     private let nameLabel = UILabel()
     private let divider1 = UIView()
@@ -53,7 +55,16 @@ final class RemembranceViewController: UIViewController {
         cardView.do {
             $0.backgroundColor = .gray700
             $0.layer.cornerRadius = 16
+            $0.layer.borderWidth = 10
+            $0.layer.borderColor = UIColor.gray800?.cgColor
+            $0.clipsToBounds = true
         }
+
+        [leftCornerBand, rightCornerBand].forEach {
+            $0.backgroundColor = .gray800
+        }
+        leftCornerBand.transform = CGAffineTransform(rotationAngle: -.pi / 4)
+        rightCornerBand.transform = CGAffineTransform(rotationAngle: .pi / 4)
 
         memorialImageView.do {
             $0.contentMode = .scaleAspectFit
@@ -123,7 +134,7 @@ final class RemembranceViewController: UIViewController {
 
         contentView.addSubviews(cardView, menuStackView, commentTitleLabel, commentStackView)
 
-        cardView.addSubviews(memorialImageView, nameLabel, divider1, causeOfDeathStackView, divider2, infoStackView)
+        cardView.addSubviews(leftCornerBand, rightCornerBand, memorialImageView, nameLabel, divider1, causeOfDeathStackView, divider2, infoStackView)
         [causeOfDeathTitleLabel, causeOfDeathLabel].forEach {
             causeOfDeathStackView.addArrangedSubview($0)
         }
@@ -170,6 +181,20 @@ final class RemembranceViewController: UIViewController {
         cardView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(40)
             $0.horizontalEdges.equalToSuperview().inset(16)
+        }
+
+        leftCornerBand.snp.makeConstraints {
+            $0.width.equalTo(170)
+            $0.height.equalTo(32)
+            $0.centerX.equalTo(cardView.snp.leading).offset(60)
+            $0.centerY.equalTo(cardView.snp.top).offset(60)
+        }
+
+        rightCornerBand.snp.makeConstraints {
+            $0.width.equalTo(170)
+            $0.height.equalTo(32)
+            $0.centerX.equalTo(cardView.snp.trailing).offset(-60)
+            $0.centerY.equalTo(cardView.snp.top).offset(60)
         }
 
         memorialImageView.snp.makeConstraints {
