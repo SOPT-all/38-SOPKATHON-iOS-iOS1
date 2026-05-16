@@ -43,7 +43,7 @@ final class SelectFriendsViewCell: UITableViewCell {
         }
         
         checkImage.do {
-            $0.image = UIImage(resource: .checkbox)
+            $0.image = UIImage(resource: .yellowCheckYes)
         }
     }
     
