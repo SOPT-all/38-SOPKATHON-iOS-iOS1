@@ -13,6 +13,7 @@ extension UIColor {
 
     static let black = UIColor(named: "black")
     static let white = UIColor(named: "white")
+    static let base = UIColor(named: "base")
 
     // MARK: - Cool Neutral
 
@@ -26,4 +27,10 @@ extension UIColor {
     static let gray700 = UIColor(named: "gray700")
     static let gray800 = UIColor(named: "gray800")
     static let gray900 = UIColor(named: "gray900")
+    
+    // MARK: Custom
+    static let red = UIColor(named: "red")
+    static let yellow = UIColor(named: "yellow")
+    static let blue = UIColor(named: "blue")
+    static let green = UIColor(named: "green")
 }
