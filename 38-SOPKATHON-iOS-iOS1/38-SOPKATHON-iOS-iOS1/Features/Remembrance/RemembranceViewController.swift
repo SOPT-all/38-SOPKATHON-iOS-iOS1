@@ -43,12 +43,15 @@ final class RemembranceViewController: UIViewController {
     private let commentStackView = UIStackView()
     private let commentInputView = CommentInputView()
 
+    private let service = RemembranceService()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray900
         setStyle()
         setUI()
         setLayout()
+        fetchData()
     }
 
     private func setStyle() {
@@ -68,7 +71,7 @@ final class RemembranceViewController: UIViewController {
 
         memorialImageView.do {
             $0.contentMode = .scaleAspectFit
-            $0.image = UIImage(resource: .artwork)
+            $0.image = UIImage(resource: .flower)
             $0.tintColor = .gray
         }
 
@@ -143,8 +146,13 @@ final class RemembranceViewController: UIViewController {
             infoStackView.addArrangedSubview($0)
         }
 
-        ["부활", "고이 보내기", "유산 넘기기"].forEach {
-            menuStackView.addArrangedSubview(CircleMenuItemView(title: $0))
+        let menuItems: [(title: String, icon: UIImage?)] = [
+            ("부활", UIImage(resource: .icCross)),
+            ("고이 보내기", UIImage(resource: .icFire)),
+            ("유산 넘기기", UIImage(resource: .icLetter))
+        ]
+        menuItems.forEach {
+            menuStackView.addArrangedSubview(CircleMenuItemView(title: $0.title, icon: $0.icon))
         }
 
         let dummies = [
@@ -246,6 +254,74 @@ final class RemembranceViewController: UIViewController {
             $0.top.equalTo(commentTitleLabel.snp.bottom).offset(6)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.bottom.equalToSuperview().inset(24)
+        }
+    }
+}
+
+// MARK: - Network
+
+private extension RemembranceViewController {
+
+    func fetchData() {
+        Task {
+            do {
+                let data = try await service.getRemembranceData(userId: 1, goalId: 1)
+                bindData(data)
+            } catch {
+                print(error)
+            }
+        }
+    }
+
+    @MainActor
+    func bindData(_ data: RemembranceDataDto) {
+        nameLabel.attributedText = NSAttributedString(
+            string: "(故) \(data.title)",
+            attributes: UIFont.title_b_20.attributes(alignment: .center)
+        )
+
+        causeOfDeathLabel.attributedText = NSAttributedString(
+            string: data.description,
+            attributes: UIFont.body_m_14.attributes(alignment: .center)
+        )
+
+        userRow.updateValue(data.owner.nickname)
+        deathCauseRow.updateValue(data.description)
+        deathDateRow.updateValue(daysSince(data.createdAt))
+
+        let count = data.condolenceCount
+        let fullText = "조문 \(count)"
+        let attributedString = NSMutableAttributedString(string: fullText, attributes: UIFont.body_sb_16.attributes())
+        attributedString.addAttribute(.foregroundColor, value: UIColor.white, range: NSRange(location: 0, length: fullText.count))
+        if let range = fullText.range(of: "\(count)") {
+            attributedString.addAttribute(.foregroundColor, value: UIColor.yellow ?? .gray, range: NSRange(range, in: fullText))
+        }
+        commentTitleLabel.attributedText = attributedString
+
+        commentStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        data.condolences.forEach {
+            commentStackView.addArrangedSubview(CommentCell(name: $0.nickname, message: $0.content, time: relativeTime(from: $0.createdAt)))
+        }
+    }
+
+    private func daysSince(_ dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        guard let date = formatter.date(from: dateString) else { return "D+0" }
+        let days = Calendar.current.dateComponents([.day], from: date, to: Date()).day ?? 0
+        return "D+\(days)"
+    }
+
+    private func relativeTime(from dateString: String) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+        guard let date = formatter.date(from: dateString) else { return dateString }
+        let seconds = Int(Date().timeIntervalSince(date))
+        switch seconds {
+        case ..<60:     return "방금 전"
+        case ..<3600:   return "\(seconds / 60)분 전"
+        case ..<86400:  return "\(seconds / 3600)시간 전"
+        default:        return "\(seconds / 86400)일 전"
         }
     }
 }

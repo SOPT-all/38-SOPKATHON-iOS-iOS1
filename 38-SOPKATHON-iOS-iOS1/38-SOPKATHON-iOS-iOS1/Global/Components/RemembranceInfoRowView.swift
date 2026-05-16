@@ -42,4 +42,8 @@ final class RemembranceInfoRowView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func updateValue(_ value: String) {
+        valueLabel.attributedText = NSAttributedString(string: value, attributes: UIFont.body_r_14.attributes())
+    }
 }

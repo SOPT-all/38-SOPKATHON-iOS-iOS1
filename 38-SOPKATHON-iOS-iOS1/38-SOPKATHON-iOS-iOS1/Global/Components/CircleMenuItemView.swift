@@ -16,10 +16,10 @@ final class CircleMenuItemView: UIView {
     private let button = UIButton()
     private let titleLabel = UILabel()
 
-    init(title: String) {
+    init(title: String, icon: UIImage?) {
         super.init(frame: .zero)
         self.title = title
-        setStyle()
+        setStyle(icon: icon)
         setUI()
         setLayout()
     }
@@ -28,11 +28,10 @@ final class CircleMenuItemView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setStyle() {
+    private func setStyle(icon: UIImage?) {
         button.do {
             $0.clipsToBounds = true
-            $0.backgroundColor = .gray300
-            $0.layer.cornerRadius = 25
+            $0.setImage(icon, for: .normal)
         }
         
         titleLabel.do {
