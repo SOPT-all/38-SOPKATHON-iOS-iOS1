@@ -1,4 +1,7 @@
-# 38-SOPKATHON-iOS-iOS1
+# 미루고
+> 서비스 이름 및 간단한 소개
+
+
 
 <div align="center">
 
@@ -6,7 +9,7 @@
 
 | **신서연** | **임성환** | **장지인** |
 | :---: | :---: | :---: |
-| | | |
+| `HomeView` | `RemembranceView` | `FriendModalView` |
 
 </div>
 
@@ -71,7 +74,8 @@
 ```
 ├── 📁 App
 │   ├── 📃 AppDelegate.swift
-│   └── 📃 SceneDelegate.swift
+│   └── 📃 SceneDelegate.swift<img width="1440" height="960" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/4e673118-3f37-49d7-849f-e2314cefee5b" />
+
 ├── 📁 Global
 │   ├── 📃 LaunchScreen.storyboard
 │   ├── 📁 Components
@@ -91,3 +95,9 @@
 ## 시연영상 
 
 ## 😴 솝커톤 비포앤애프터
+
+| **Before** | **After** |
+| :---: | :---: |
+| <img width="360" height="240" alt="사진 2026  5  17  오전 1 05" src="https://github.com/user-attachments/assets/57285cb4-7405-4bd1-b274-9f4d7bb1498d" /> | |
+
+
