@@ -367,4 +367,49 @@ private extension HomeViewController {
 
         tableView.reloadData()
     }
+    
+    func fetchHomeGoals() {
+        let userId = 1
+
+        HomeService.shared.fetchHomeGoals(userId: userId) { [weak self] result in
+            DispatchQueue.main.async {
+                guard let self else { return }
+
+                switch result {
+                case .success(let response):
+                    self.ongoingGoals = response.activeGoals.map {
+                        Goal(
+                            goalId: $0.goalId,
+                            profileImageName: "profileImg",
+                            name: $0.title,
+                            dDay: $0.dDay
+                        )
+                    }
+
+                    self.endedGoals = response.expiredGoals.map {
+                        Goal(
+                            goalId: $0.goalId,
+                            profileImageName: "profileImg",
+                            name: $0.title,
+                            dDay: $0.dDay
+                        )
+                    }
+
+                    self.completedGoals = response.completedGoals.map {
+                        Goal(
+                            goalId: $0.goalId,
+                            profileImageName: "profileImg",
+                            name: $0.title,
+                            dDay: $0.dDay
+                        )
+                    }
+
+                    self.tableView.reloadData()
+
+                case .failure(let error):
+                    print("목표 조회 실패:", error)
+                }
+            }
+        }
+    }
 }
