@@ -71,7 +71,7 @@ final class RemembranceViewController: UIViewController {
 
         memorialImageView.do {
             $0.contentMode = .scaleAspectFit
-            $0.image = UIImage(resource: .artwork)
+            $0.image = UIImage(resource: .flower)
             $0.tintColor = .gray
         }
 
