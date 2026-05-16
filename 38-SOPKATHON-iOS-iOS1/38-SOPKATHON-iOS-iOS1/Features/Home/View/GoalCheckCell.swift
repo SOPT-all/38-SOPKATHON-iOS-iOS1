@@ -1,19 +1,34 @@
 //
-//  MemorySpaceCell.swift
+//  GoalCheckCell.swift
 //  38-SOPKATHON-iOS-iOS1
 //
-//  Created by 신서연 on 5/16/26.
+//  Created by 신서연 on 5/17/26.
 //
-
 
 import UIKit
 
 import SnapKit
 import Then
 
-final class MemorySpaceCell: UITableViewCell {
+final class GoalCheckCell: UITableViewCell {
 
-    static let identifier = "MemorySpaceCell"
+    static let identifier = "GoalCheckCell"
+
+    enum CheckStyle {
+        case yellowNo
+        case yellowYes
+
+        var checkedImageName: String {
+            switch self {
+            case .yellowNo:
+                return "yellowCheckNo"
+            case .yellowYes:
+                return "yellowCheckYes"
+            }
+        }
+    }
+
+    var checkButtonDidTap: (() -> Void)?
 
     private let containerView = UIView().then {
         $0.backgroundColor = .gray800
@@ -21,12 +36,7 @@ final class MemorySpaceCell: UITableViewCell {
         $0.clipsToBounds = true
     }
 
-    private let profileImageView = UIImageView().then {
-        $0.backgroundColor = .white
-        $0.contentMode = .scaleAspectFill
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 18
-    }
+    private let checkButton = UIButton(type: .custom)
 
     private let nameLabel = UILabel().then {
         $0.textColor = .white
@@ -46,7 +56,6 @@ final class MemorySpaceCell: UITableViewCell {
 
     private let inviteButton = UIButton(type: .custom).then {
         $0.setImage(UIImage(named: "invite2"), for: .normal)
-        $0.setImage(UIImage(named: "invite0"), for: .highlighted)
         $0.adjustsImageWhenHighlighted = false
     }
 
@@ -56,6 +65,7 @@ final class MemorySpaceCell: UITableViewCell {
         setStyle()
         setUI()
         setLayout()
+        setAction()
     }
 
     required init?(coder: NSCoder) {
@@ -65,23 +75,33 @@ final class MemorySpaceCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        profileImageView.image = nil
         nameLabel.text = nil
         dDayLabel.text = nil
+        checkButtonDidTap = nil
+        inviteButton.setImage(UIImage(named: "invite2"), for: .normal)
+        inviteButton.setImage(nil, for: .highlighted)
     }
 
     func configure(
-        profileImageName: String,
         name: String,
-        dDay: Int
+        dDay: Int,
+        checkStyle: CheckStyle,
+        inviteHighlightedImageName: String
     ) {
-        profileImageView.image = UIImage(named: profileImageName)
         nameLabel.text = name
         dDayLabel.text = "D-\(dDay)"
+
+        checkButton.setImage(
+            UIImage(named: checkStyle.checkedImageName),
+            for: .normal
+        )
+
+        inviteButton.setImage(UIImage(named: "invite2"), for: .normal)
+        inviteButton.setImage(UIImage(named: inviteHighlightedImageName), for: .highlighted)
     }
 }
 
-private extension MemorySpaceCell {
+private extension GoalCheckCell {
 
     func setStyle() {
         backgroundColor = .clear
@@ -92,7 +112,7 @@ private extension MemorySpaceCell {
     func setUI() {
         contentView.addSubview(containerView)
 
-        containerView.addSubview(profileImageView)
+        containerView.addSubview(checkButton)
         containerView.addSubview(textStackView)
         containerView.addSubview(inviteButton)
 
@@ -106,14 +126,14 @@ private extension MemorySpaceCell {
             $0.leading.trailing.equalToSuperview()
         }
 
-        profileImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(10)
+        checkButton.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(18)
             $0.centerY.equalToSuperview()
-            $0.size.equalTo(36)
+            $0.size.equalTo(18)
         }
 
         textStackView.snp.makeConstraints {
-            $0.leading.equalTo(profileImageView.snp.trailing).offset(16)
+            $0.leading.equalTo(checkButton.snp.trailing).offset(18)
             $0.centerY.equalToSuperview()
             $0.trailing.lessThanOrEqualTo(inviteButton.snp.leading).offset(-16)
         }
@@ -124,5 +144,18 @@ private extension MemorySpaceCell {
             $0.width.equalTo(55)
             $0.height.equalTo(35)
         }
+    }
+
+    func setAction() {
+        checkButton.addTarget(
+            self,
+            action: #selector(checkButtonTapped),
+            for: .touchUpInside
+        )
+    }
+
+    @objc
+    func checkButtonTapped() {
+        checkButtonDidTap?()
     }
 }
