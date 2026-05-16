@@ -47,6 +47,12 @@ final class HomeViewController: UIViewController {
         $0.layer.cornerRadius = 10
         $0.clipsToBounds = true
     }
+    
+    private let bannerImageView = UIImageView().then {
+        $0.image = UIImage(named: "bannerImg")
+        $0.contentMode = .scaleAspectFill
+        $0.clipsToBounds = true
+    }
 
     private let titleLabel = UILabel().then {
         $0.text = "목표 이루고"
@@ -289,6 +295,7 @@ private extension HomeViewController {
         view.addSubview(topCardView)
         view.addSubview(tableView)
 
+        topCardView.addSubview(bannerImageView)
         topCardView.addSubview(textStackView)
         topCardView.addSubview(plusButton)
 
@@ -301,6 +308,10 @@ private extension HomeViewController {
             $0.top.equalTo(view.safeAreaLayoutGuide).offset(40)
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.height.equalTo(160)
+        }
+        
+        bannerImageView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
         }
 
         textStackView.snp.makeConstraints {
