@@ -29,6 +29,7 @@ final class GoalCheckCell: UITableViewCell {
     }
 
     var checkButtonDidTap: (() -> Void)?
+    var inviteButtonDidTap: (() -> Void)?
 
     private let containerView = UIView().then {
         $0.backgroundColor = .gray800
@@ -152,10 +153,19 @@ private extension GoalCheckCell {
             action: #selector(checkButtonTapped),
             for: .touchUpInside
         )
+        inviteButton.addTarget(
+            self,
+            action: #selector(inviteButtonTapped),
+            for: .touchUpInside
+        )
     }
 
     @objc
     func checkButtonTapped() {
         checkButtonDidTap?()
+    }
+    @objc
+    func inviteButtonTapped() {
+        inviteButtonDidTap?()
     }
 }

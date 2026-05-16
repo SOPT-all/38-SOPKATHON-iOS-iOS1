@@ -107,11 +107,12 @@ final class HomeViewController: UIViewController {
             object: nil
         )
     }
+    
 
     @objc
     func plusButtonDidTap() {
 
-        let viewController = SelectFriendsTestViewController()
+        let viewController = SetGoalViewController()
 
         dimView.removeFromSuperview()
         dimView.alpha = 1
@@ -192,6 +193,10 @@ extension HomeViewController: UITableViewDataSource {
 
             cell.checkButtonDidTap = { [weak self] in
                 self?.moveGoalToCompleted(at: indexPath.row)
+            }
+            
+            cell.inviteButtonDidTap = { [weak self] in
+                self?.presentSelectFriendsView()
             }
 
             return cell
@@ -355,5 +360,24 @@ private extension HomeViewController {
         ongoingGoals.append(goal)
 
         tableView.reloadData()
+    }
+    
+    private func presentSelectFriendsView() {
+        let vc = SelectFriendsTestViewController()
+
+        dimView.removeFromSuperview()
+
+        dimView.frame = view.bounds
+        dimView.alpha = 0.0
+        view.addSubview(dimView)
+
+        UIView.animate(withDuration: 0.3) {
+            self.dimView.alpha = 1.0
+        }
+
+        vc.modalPresentationStyle = .custom
+        vc.modalTransitionStyle = .crossDissolve
+
+        present(vc, animated: true)
     }
 }
