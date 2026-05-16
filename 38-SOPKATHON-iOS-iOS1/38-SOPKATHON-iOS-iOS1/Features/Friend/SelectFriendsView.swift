@@ -18,10 +18,10 @@ final class SelectFriendsView: UIView {
     let tableView = UITableView()
     
     private let titleLabel = UILabel()
-    
-    private let inviteButton = ButtonComponents(type: .small, title: "초대하기")
+    private let titleView = UIView()
+    let inviteButton = ButtonComponents(type: .small, title: "초대하기")
 
-    private let cancelButton = UIButton()
+    let closeButton = UIButton()
     
     // MARK: - Initializer
     
@@ -55,6 +55,10 @@ final class SelectFriendsView: UIView {
             $0.textColor = .gray600
         }
         
+        titleView.do {
+            $0.backgroundColor = .yellow
+        }
+        
         tableView.do {
             $0.separatorStyle = .none
             $0.rowHeight = 48
@@ -64,17 +68,23 @@ final class SelectFriendsView: UIView {
         inviteButton.do {
             $0.backgroundColor = .white
         }
+        
+        closeButton.do {
+            $0.setImage(UIImage(resource: .icClose), for: .normal)
+        }
     }
     
     private func setUI() {
         addSubviews(
             modalView
         )
+        titleView.addSubview(titleLabel)
         
         modalView.addSubviews(
-            titleLabel,
+            titleView,
             tableView,
-            inviteButton
+            inviteButton,
+            closeButton
         )
     }
 
@@ -83,9 +93,15 @@ final class SelectFriendsView: UIView {
             $0.edges.equalToSuperview()
         }
         
+        titleView.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.height.equalTo(64)
+            $0.horizontalEdges.equalToSuperview()
+        }
         titleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().inset(24)
             $0.centerX.equalToSuperview()
+            $0.horizontalEdges.equalToSuperview()
         }
         
         tableView.snp.makeConstraints {
@@ -99,6 +115,12 @@ final class SelectFriendsView: UIView {
             $0.height.equalTo(48)
             $0.width.equalTo(311)
             $0.centerX.equalToSuperview()
+        }
+        
+        closeButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel)
+            $0.trailing.equalToSuperview().inset(24)
+            $0.size.equalTo(24)
         }
         
     }

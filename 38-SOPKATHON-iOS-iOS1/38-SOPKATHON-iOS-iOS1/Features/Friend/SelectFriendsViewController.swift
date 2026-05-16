@@ -39,6 +39,7 @@ final class SelectFriendsTestViewController: UIViewController {
         transitioningDelegate = customTransitioningDelegate
         
         setTableView()
+        setAction()
     }
     
     // MARK: - Private Methods
@@ -51,6 +52,29 @@ final class SelectFriendsTestViewController: UIViewController {
             SelectFriendsViewCell.self,
             forCellReuseIdentifier: SelectFriendsViewCell.identifier
         )
+    }
+    
+    private func setAction() {
+        rootView.closeButton.addTarget(
+            self,
+            action: #selector(closeButtonDidTap),
+            for: .touchUpInside
+        )
+        rootView.inviteButton.addTarget(
+            self,
+            action: #selector(inviteButtonDidTap),
+            for: .touchUpInside
+        )
+    }
+    @objc
+    private func closeButtonDidTap() {
+        NotificationCenter.default.post(name: .didDismissSelectFriends, object: nil)
+        dismiss(animated: true)
+    }
+    @objc
+    private func inviteButtonDidTap() {
+        NotificationCenter.default.post(name: .didDismissSelectFriends, object: nil)
+        dismiss(animated: true)
     }
 }
 
@@ -66,7 +90,6 @@ extension SelectFriendsTestViewController: UITableViewDataSource {
     ) -> Int {
         return 1
     }
-    
     func tableView(
         _ tableView: UITableView,
         cellForRowAt indexPath: IndexPath
@@ -78,8 +101,11 @@ extension SelectFriendsTestViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.selectionStyle = .none
+        
         return cell
     }
+    
 }
 
 extension SelectFriendsTestViewController: UITableViewDelegate {
@@ -100,4 +126,8 @@ extension SelectFriendsTestViewController: UITableViewDelegate {
         
         return view
     }
+}
+
+extension Notification.Name {
+    static let didDismissSelectFriends = Notification.Name("didDismissSelectFriends")
 }
