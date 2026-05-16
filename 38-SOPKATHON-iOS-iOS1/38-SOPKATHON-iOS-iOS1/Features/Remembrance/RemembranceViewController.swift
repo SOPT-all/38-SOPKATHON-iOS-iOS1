@@ -43,12 +43,15 @@ final class RemembranceViewController: UIViewController {
     private let commentStackView = UIStackView()
     private let commentInputView = CommentInputView()
 
+    private let service = RemembranceService()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .gray900
         setStyle()
         setUI()
         setLayout()
+//        fetchData()
     }
 
     private func setStyle() {
@@ -143,8 +146,13 @@ final class RemembranceViewController: UIViewController {
             infoStackView.addArrangedSubview($0)
         }
 
-        ["부활", "고이 보내기", "유산 넘기기"].forEach {
-            menuStackView.addArrangedSubview(CircleMenuItemView(title: $0))
+        let menuItems: [(title: String, icon: UIImage?)] = [
+            ("부활", UIImage(resource: .icCross)),
+            ("고이 보내기", UIImage(resource: .icFire)),
+            ("유산 넘기기", UIImage(resource: .icLetter))
+        ]
+        menuItems.forEach {
+            menuStackView.addArrangedSubview(CircleMenuItemView(title: $0.title, icon: $0.icon))
         }
 
         let dummies = [
@@ -249,3 +257,24 @@ final class RemembranceViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Network
+//
+//private extension RemembranceViewController {
+//
+//    func fetchData() {
+//        Task {
+//            do {
+//                let data = try await service.getRemembranceData(userId: <#userId#>, goalId: <#goalId#>)
+//                bindData(data)
+//            } catch {
+//                print(error)
+//            }
+//        }
+//    }
+//
+//    @MainActor
+//    func bindData(_ data: RemembranceDataDto) {
+//        
+//    }
+//}
